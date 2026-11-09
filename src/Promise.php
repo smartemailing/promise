@@ -13,7 +13,7 @@ class Promise implements ExtendedPromiseInterface, CancellablePromiseInterface
     private $requiredCancelRequests = 0;
     private $cancelRequests = 0;
 
-    public function __construct(callable $resolver, callable $canceller = null)
+    public function __construct(callable $resolver, ?callable $canceller = null)
     {
         $this->canceller = $canceller;
 
@@ -25,7 +25,7 @@ class Promise implements ExtendedPromiseInterface, CancellablePromiseInterface
         $this->call($cb);
     }
 
-    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onProgress = null)
+    public function then(?callable $onFulfilled = null, ?callable $onRejected = null, ?callable $onProgress = null)
     {
         if (null !== $this->result) {
             return $this->result->then($onFulfilled, $onRejected, $onProgress);
@@ -55,7 +55,7 @@ class Promise implements ExtendedPromiseInterface, CancellablePromiseInterface
         );
     }
 
-    public function done(callable $onFulfilled = null, callable $onRejected = null, callable $onProgress = null)
+    public function done(?callable $onFulfilled = null, ?callable $onRejected = null, ?callable $onProgress = null)
     {
         if (null !== $this->result) {
             return $this->result->done($onFulfilled, $onRejected, $onProgress);
@@ -112,7 +112,7 @@ class Promise implements ExtendedPromiseInterface, CancellablePromiseInterface
         $this->call($canceller);
     }
 
-    private function resolver(callable $onFulfilled = null, callable $onRejected = null, callable $onProgress = null)
+    private function resolver(?callable $onFulfilled = null, ?callable $onRejected = null, ?callable $onProgress = null)
     {
         return function ($resolve, $reject, $notify) use ($onFulfilled, $onRejected, $onProgress) {
             if ($onProgress) {
